@@ -10,4 +10,4 @@ add_executable(P01 main.cpp
         CMapIterator.h
         CGridtypeMap.h
         CMapIterator.cpp
-        "CGridtypeMap.cpp")
+        CGridtypeMap.cpp)

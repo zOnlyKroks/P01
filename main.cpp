@@ -15,7 +15,7 @@
 
 
 int main() {
-    const std::string filename = "map03.CSV";
+    const std::string filename = "map01.CSV";
 
     // Test 1: Import map and show dimensions
     CGridtypeMap map;
@@ -32,18 +32,18 @@ int main() {
 
     map.toConsole(true, {});
 
+    PAUSE_CMD;
+
     // Test 4: Find path
     std::vector<GridCoordinate> pathCoordinates;
     GridCoordinate start{}, goal{};
-    start.x = 3;
-    start.y = 9;
-    goal.x = 9;
-    goal.y = 4;
-
-    PAUSE_CMD;
+    start.x = 1;
+    start.y = 11;
+    goal.x = 5;
+    goal.y = 1;
 
     // Display the path
-    if (const int pathLen = depthFirst(it, start, goal, pathCoordinates); pathLen > 0) {
+    if (const int pathLen = aStarSearch(it, start, goal, pathCoordinates); pathLen > 0) {
         std::cout << "Path found with " << pathLen << " steps.\n";
 
         std::cout << "Map (with path):\n";

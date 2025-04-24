@@ -3,9 +3,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "SearchAlgorithm.h"
 #include "CGridtypeMap.h"
 #include "CMapIterator.h"
+#include "SearchAlgorithm.h"
 
 #ifdef __APPLE__
   #define PAUSE_CMD system("read -n 1 -s -p \"Press any key to continue...\"")
@@ -15,7 +15,7 @@
 
 
 int main() {
-    const std::string filename = "map01.CSV";
+    const std::string filename = "map03.CSV";
 
     // Test 1: Import map and show dimensions
     CGridtypeMap map;
@@ -43,7 +43,7 @@ int main() {
     goal.y = 1;
 
     // Display the path
-    if (const int pathLen = aStarSearch(it, start, goal, pathCoordinates); pathLen > 0) {
+    if (const int pathLen = depthFirst(it, start, goal, pathCoordinates); pathLen > 0) {
         std::cout << "Path found with " << pathLen << " steps.\n";
 
         std::cout << "Map (with path):\n";

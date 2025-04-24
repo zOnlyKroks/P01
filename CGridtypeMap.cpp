@@ -62,8 +62,7 @@ int CGridtypeMap::importMap(const std::string& fileName)
     return line;
 }
 
-void CGridtypeMap::toConsole(const bool hideCosts,
-                             const std::vector<GridCoordinate>& path)
+void CGridtypeMap::toConsole(const bool hideCosts, const std::vector<GridCoordinate>& path)
 {
     // ANSI clear:
     std::cout << "\x1B[2J\x1B[H";
@@ -71,6 +70,15 @@ void CGridtypeMap::toConsole(const bool hideCosts,
     const std::size_t W = mapWidth();
     const std::size_t H = mapHeight();
     if (W == 0 || H == 0) return;
+
+    // ANSI color codes
+    const std::string RESET = "\033[0m";
+    const std::string RED = "\033[41m"; // Red background
+    const std::string GREEN = "\033[42m"; // Green background for start
+    const std::string BLUE = "\033[44m"; // Blue background for end
+    const std::string YELLOW = "\033[43m"; // Yellow background for path
+    const std::string WHITE_TEXT = "\033[97m"; // White text color
+    const std::string WHITE_BG = "\033[47m"; // White background for obstacles
 
     // How many digits to print each column index (e.g. 0…99 → 2 digits)
     auto needed_digits = [&](std::size_t n){
@@ -88,7 +96,8 @@ void CGridtypeMap::toConsole(const bool hideCosts,
     std::cout << std::string(rowWidth + 1, ' ');
     for (std::size_t x = 0; x < W; ++x) {
         // each number is right‐aligned in a field of width colWidth
-        std::cout << std::setw(colWidth) << x << ' ';
+        std::cout << std::setw(colWidth) << x;
+        // No space between column headers
     }
     std::cout << "\n";
 
@@ -100,6 +109,7 @@ void CGridtypeMap::toConsole(const bool hideCosts,
         for (std::size_t x = 0; x < W; ++x) {
             GridCoordinate pos{ static_cast<int>(x), static_cast<int>(y) };
             char c = '#';
+            std::string color = RED; // Default for walls is red background
 
             // draw background
             if (x < map[y].size()) {
@@ -107,22 +117,29 @@ void CGridtypeMap::toConsole(const bool hideCosts,
                     c = hideCosts
                         ? ' '
                         : static_cast<char>('0' + cost);
+                    color = ""; // No background color for normal trail
                 }
             }
 
-            // overlay path markers
             if (!path.empty()) {
                 if (pos == path.front()) {
                     c = 'S';
+                    color = GREEN; // Start point in green
                 } else if (pos == path.back()) {
                     c = 'E';
+                    color = BLUE; // End point in blue
                 } else if (std::ranges::find(path, pos) != path.end()) {
                     c = 'o';
+                    color = YELLOW; // Path points in yellow
                 }
             }
 
-            // print the cell in a field of width colWidth, then a space
-            std::cout << std::setw(colWidth) << c << ' ';
+            if (c == '#') {
+                color = WHITE_BG;
+                c = ' ';
+            }
+
+            std::cout << color << WHITE_TEXT << std::string(colWidth, c) << RESET;
         }
         std::cout << "\n";
     }

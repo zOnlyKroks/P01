@@ -28,8 +28,4 @@ struct GridCoordinate {
 	bool operator==(const GridCoordinate& other) const {
 		return x == other.x && y == other.y;
 	}
-
-	bool operator()(const GridCoordinate& a, const GridCoordinate& b) const {
-		return std::tie(a.x, a.y) < std::tie(b.x, b.y);
-	}
 };

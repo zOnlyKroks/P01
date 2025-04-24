@@ -1,6 +1,8 @@
 #define CRT_SECURE_NO_WARNINGS
 #include <cstdlib>
+#include <functional>
 #include <iostream>
+#include <random>
 #include <string>
 #include <vector>
 #include "CGridtypeMap.h"
@@ -12,7 +14,6 @@
 #else
   #define PAUSE_CMD system("pause")
 #endif
-
 
 int main() {
     const std::string filename = "map03.CSV";
@@ -39,11 +40,16 @@ int main() {
     GridCoordinate start{}, goal{};
     start.x = 1;
     start.y = 11;
-    goal.x = 5;
-    goal.y = 1;
+    goal.x = 9;
+    goal.y = 4;
+
+    //true ? depthFirst : aStar
+    //depthFirst wurde gegeben, aStar von (Finn Rades)
+    constexpr auto useDepthFirst = false;
 
     // Display the path
-    if (const int pathLen = depthFirst(it, start, goal, pathCoordinates); pathLen > 0) {
+    if (const int pathLen = (useDepthFirst) ? depthFirst(it, start, goal, pathCoordinates) : aStar(it, start, goal, pathCoordinates); pathLen > 0) {
+        std::cout << "Using algorithm " << (useDepthFirst ? "depthFirst" : "aStar") << "\n";
         std::cout << "Path found with " << pathLen << " steps.\n";
 
         std::cout << "Map (with path):\n";

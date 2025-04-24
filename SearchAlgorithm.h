@@ -3,8 +3,6 @@
 #include "Pathfinder.h"
 #include "CMapIterator.h"
 #include <vector>
-#include <queue>
-#include <unordered_map>
 #include <algorithm>
 #include <map>
 

@@ -7,6 +7,13 @@
 #include "CGridtypeMap.h"
 #include "CMapIterator.h"
 
+#ifdef __APPLE__
+  #define PAUSE_CMD system("read -n 1 -s -p \"Press any key to continue...\"")
+#else
+  #define PAUSE_CMD system("pause")
+#endif
+
+
 int main() {
     const std::string filename = "map03.CSV";
 
@@ -16,11 +23,11 @@ int main() {
     std::cout << "WIDTH: " << map.mapWidth() << "\t HEIGHT: " << map.mapHeight() << "\n";
 
     // Test 3: Test iterator
-    system("pause");
+    PAUSE_CMD;
     CMapIterator it = map.leapIn(GridCoordinate{ 1, 1 });
-    std::cout << "Current position of CMapIterator object: " << it.getPosition() << "\n";
+    std::cout << "\nCurrent position of CMapIterator object: " << it.getPosition() << "\n";
 
-    system("pause");
+    PAUSE_CMD;
     std::cout << "Map (without path): \n" << std::endl;
 
     map.toConsole(true, {});
@@ -33,7 +40,7 @@ int main() {
     goal.x = 9;
     goal.y = 4;
 
-    system("pause");
+    PAUSE_CMD;
 
     // Display the path
     if (const int pathLen = depthFirst(it, start, goal, pathCoordinates); pathLen > 0) {
